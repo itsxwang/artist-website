@@ -608,7 +608,7 @@ function MainDetails({ id }: { id: string }) {
                           >
                             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl p-6 w-full max-w-sm mx-auto">
                               <div className="flex justify-between items-center mb-5">
-                                <h4 className="font-semibold font-[inter] text-xxl text-gray-900 dark:text-gray-100">
+                                <h4 className="font-semibold font-[inter] text-xl text-gray-900 dark:text-gray-100">
                                   Share Artwork
                                 </h4>
                                 <button
