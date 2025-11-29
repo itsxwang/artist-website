@@ -52,11 +52,13 @@ const CartItem = ({
         transition={{ duration: 0.3 }}
         className="flex gap-4 border-b dark:border-gray-700 border-gray-200 pb-4"
     >
+        <a href={`/art/${item._id}`}>
         <img
             src={item.mainImage}
             alt={item.title}
             className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-md flex-shrink-0"
         />
+        </a>
         <div className="flex flex-col flex-grow min-w-0">
             <div className="flex justify-between items-start">
                 <div className="pr-2">
