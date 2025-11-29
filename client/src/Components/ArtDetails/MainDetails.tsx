@@ -19,7 +19,7 @@ import {
   removeFromFavourites,
 } from "../../services/handleFavourites";
 import { FaWhatsapp } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaXTwitter } from "react-icons/fa6";
 import useTitle from "../../hooks/useTitle";
 
@@ -31,6 +31,7 @@ interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   className?: string;
+  id?: string;
 }
 
 interface BadgeProps {
@@ -44,8 +45,10 @@ const Button = ({
   onClick,
   disabled = false,
   className = "",
+  id,
 }: ButtonProps) => (
   <button
+    id={id}
     onClick={onClick}
     disabled={disabled}
     className={`px-4 py-2 rounded-md transition-colors cursor-pointer ${className}`}
@@ -289,6 +292,18 @@ function MainDetails({ id }: { id: string }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleNextImage, handlePrevImage]);
 
+  useEffect(() => {
+    if (showSharePopup) {
+      const handleEsc = (event: KeyboardEvent) => {
+        if (event.key === "Escape") setShowSharePopup(false);
+      };
+      document.addEventListener("keydown", handleEsc);
+      //  remove focus from share button also
+      document.getElementById("shared-button")?.blur();
+      return () => document.removeEventListener("keydown", handleEsc);
+    }
+  }, [showSharePopup]);
+
   const handleShare = () => {
     setShowSharePopup(true);
   };
@@ -364,7 +379,10 @@ function MainDetails({ id }: { id: string }) {
   const isRequest = artWork.availability === "Request";
   const isAvailable = !isSold && !isRequest && artWork.stock_quantity > 0;
   if (isRequest) {
-    localStorage.setItem("contactMessage", `Hi Samridhi, I want the same painting or a customized version of "${artWork.title}" Artwork. Thank you!`);
+    localStorage.setItem(
+      "contactMessage",
+      `Hi Samridhi, I want the same painting or a customized version of "${artWork.title}" Artwork. Thank you!`
+    );
   }
 
   const showQuantitySelector = artWork.stock_quantity > 1;
@@ -381,7 +399,10 @@ function MainDetails({ id }: { id: string }) {
       <p className="w-full py-3 rounded-lg text-center text-lg font-semibold bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed">
         Sold
       </p>{" "}
-      <Link to={`/contact`} className="w-full py-3  rounded-lg text-center text-lg font-semibold bg-[#625a50] hover:bg-[#45403b] transition-colors duration-200 dark:text-white dark:bg-[#817565] text-white cursor-pointer dark:hover:bg-[#625a50]">
+      <Link
+        to={`/contact`}
+        className="w-full py-3  rounded-lg text-center text-lg font-semibold bg-[#625a50] hover:bg-[#45403b] transition-colors duration-200 dark:text-white dark:bg-[#817565] text-white cursor-pointer dark:hover:bg-[#625a50]"
+      >
         Request
       </Link>{" "}
     </div>
@@ -561,55 +582,90 @@ function MainDetails({ id }: { id: string }) {
                       <FaInstagram className="h-5 w-5 text-pink-500" />
                     </a>
                     <Button
+                      id="shared-button"
                       onClick={handleShare}
                       className="border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
                     >
                       <Share2 className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                     </Button>
-                    {showSharePopup && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{
-                          duration: 0.1,
-                        }}
-                        className="cus-share-popup absolute bottom-12 right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 md:right-0 md:left-auto md:translate-x-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl p-5 w-80 max-w-[90vw] z-50 transition-all duration-200 ease-in-out"
-                      >
-                        <div className="flex justify-between items-center mb-4">
-                          <h4 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
-                            Share Artwork
-                          </h4>
-                          <button
+                    <AnimatePresence>
+                      {showSharePopup && (
+                        <>
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                             onClick={handleClosePopup}
-                            className="text-gray-500 cursor-pointer dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-xl font-bold"
+                            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                          />
+
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.2 }}
+                            className="fixed inset-0 z-50 flex items-center justify-center p-3 overflow-y-auto"
                           >
-                            ✕
-                          </button>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <Button
-                            onClick={() => handleShareOption("whatsapp")}
-                            className="flex items-center justify-center gap-2 bg-[#25D366] text-white hover:bg-[#20BA56] py-3 rounded-lg font-medium text-sm"
-                          >
-                            <FaWhatsapp className="h-5 w-5" />
-                            WhatsApp
-                          </Button>
-                          <Button
-                            onClick={() => handleShareOption("x")}
-                            className="flex items-center justify-center gap-2 bg-[#000000] text-white hover:bg-[#333333] py-3 rounded-lg font-medium text-sm"
-                          >
-                            <FaXTwitter className="h-5 w-5" />
-                          </Button>
-                          <Button
-                            onClick={() => handleShareOption("copy")}
-                            className="flex justify-center col-span-2 gap-2 bg-gray-600 text-white hover:bg-gray-700 py-3 rounded-lg font-medium text-sm"
-                          >
-                            <LinkIcon className="h-5 w-5" />
-                            Copy Link
-                          </Button>
-                        </div>
-                      </motion.div>
-                    )}
+                            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl p-6 w-full max-w-sm mx-auto">
+                              <div className="flex justify-between items-center mb-5">
+                                <h4 className="font-semibold font-[inter] text-lg text-gray-900 dark:text-gray-100">
+                                  Share Artwork
+                                </h4>
+                                <button
+                                  onClick={handleClosePopup}
+                                  className="flex items-center justify-center w-11 h-11 rounded-full 
+             text-gray-500 hover:text-gray-800 hover:bg-gray-100 
+             dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 
+             transition-all duration-200 
+             active:scale-95 cursor-pointer"
+                                  aria-label="Close"
+                                >
+                                  <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={4}
+                                      d="M6 18L18 6M6 6l12 12"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-4">
+                                <Button
+                                  onClick={() => handleShareOption("whatsapp")}
+                                  className="flex flex-col items-center justify-center gap-2 bg-[#25D366] text-white hover:bg-[#20ba56] py-5 rounded-xl font-medium transition-transform hover:scale-105"
+                                >
+                                  <FaWhatsapp className="h-8 w-8" />
+                                  <span className="text-sm">WhatsApp</span>
+                                </Button>
+
+                                <Button
+                                  onClick={() => handleShareOption("x")}
+                                  className="flex flex-col items-center justify-center gap-2 bg-black text-white hover:bg-gray-900 py-5 rounded-xl font-medium transition-transform hover:scale-105"
+                                >
+                                  <FaXTwitter className="h-8 w-8" />
+                                  <span className="text-sm">Twitter</span>
+                                </Button>
+
+                                <Button
+                                  onClick={() => handleShareOption("copy")}
+                                  className="col-span-2 flex items-center justify-center gap-3 bg-gray-700 text-white hover:bg-gray-600 py-5 rounded-xl font-medium transition-transform hover:scale-105"
+                                >
+                                  <LinkIcon className="h-5 w-5" />
+                                  <span>Copy Link</span>
+                                </Button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
                   </div>
                   <Button
                     className="border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
