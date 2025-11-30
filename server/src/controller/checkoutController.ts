@@ -159,7 +159,7 @@ export const postCheckout = async (req: Request, res: Response) => {
       <div style="border:1px solid #eee;border-radius:6px;padding:14px;margin-top:16px;">
         <p style="margin:0;font-size:14px;color:#555;">
           <strong>Artwork:</strong> ${finalArtworks
-            .map((art) => art.title)
+            .map((art) => `${art.title} (x${art.quantity})`)
             .join(", ")}<br>
           <strong>Amount:</strong> ${finalArtworks
             .reduce((total, art) => total + art.totalprice, 0)
