@@ -17,6 +17,11 @@ const ContactSection = () => {
   const [success, setSuccess] = useState<string>("");
 
   // Auto-dismiss success message after 2 seconds
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
