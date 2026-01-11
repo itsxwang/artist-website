@@ -13,12 +13,12 @@ const MainAbout: React.FC = () => {
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
-        className="md:h-[500px] flex justify-center mb-8 md:mb-0 self-center"
+        className="md:h-[500px] flex justify-center mb-2.5 md:mb-8 self-center"
       >
         <img
           src="aboutimg.jpg"
           alt="Channel Profile"
-          className="min-w-[250px] min-h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[450px] lg:h-[450px] xl:w-[500px] xl:h-[500px] object-cover rounded-full shadow-lg"
+          className="w-[310px] h-[310px] sm:w-[350px] sm:h-[350px] lg:w-[450px] lg:h-[450px] xl:w-[500px] xl:h-[500px] object-cover rounded-full shadow-lg flex-shrink-0"
         />
       </motion.div>
 

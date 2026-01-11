@@ -753,7 +753,7 @@ function MainDetails({ id }: { id: string }) {
                         : "text-red-600 dark:text-red-400"
                     }`}
                   >
-                    {artWork.availability}
+                    {artWork.availability === "Request" ? "On Request" : artWork.availability}
                   </span>
                 </div>
               </div>
