@@ -378,12 +378,6 @@ function MainDetails({ id }: { id: string }) {
   const isSold = artWork.availability === "Sold";
   const isRequest = artWork.availability === "Request";
   const isAvailable = !isSold && !isRequest && artWork.stock_quantity > 0;
-  if (isRequest) {
-    localStorage.setItem(
-      "contactMessage",
-      `Hi Samridhi, I want the same painting or a customized version of "${artWork.title}" Artwork. Thank you!`
-    );
-  }
 
   const showQuantitySelector = artWork.stock_quantity > 1;
 
@@ -399,12 +393,19 @@ function MainDetails({ id }: { id: string }) {
       <p className="w-full py-3 rounded-lg text-center text-lg font-semibold bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed">
         Sold
       </p>{" "}
-      <Link
-        to={`/contact`}
-        className="w-full py-3  rounded-lg text-center text-lg font-semibold bg-[#625a50] hover:bg-[#45403b] transition-colors duration-200 dark:text-white dark:bg-[#817565] text-white cursor-pointer dark:hover:bg-[#625a50]"
+      <div
+        onClick={() => {
+          localStorage.setItem(
+            "contactMessage",
+            `Hi Samridhi, I want the same painting or a customized version of "${artWork.title}" Artwork. Thank you!`
+          );
+
+          window.location.href = "/contact";
+        }}
+        className="w-full py-3 rounded-lg text-center text-lg font-semibold bg-[#625a50] hover:bg-[#45403b] transition-colors duration-200 dark:text-white dark:bg-[#817565] text-white cursor-pointer dark:hover:bg-[#625a50]"
       >
         Request
-      </Link>{" "}
+      </div>{" "}
     </div>
   ) : (
     <Button
@@ -753,7 +754,9 @@ function MainDetails({ id }: { id: string }) {
                         : "text-red-600 dark:text-red-400"
                     }`}
                   >
-                    {artWork.availability === "Request" ? "On Request" : artWork.availability}
+                    {artWork.availability === "Request"
+                      ? "On Request"
+                      : artWork.availability}
                   </span>
                 </div>
               </div>
