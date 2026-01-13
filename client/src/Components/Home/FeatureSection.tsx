@@ -105,7 +105,7 @@ function FeatureSection() {
                 ) : (
                   <button
                     onClick={ (e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `/cart/${item._id}?quantity=1` } }
-                    className="cursor-pointer transition duration-200 w-full bg-[#817565] font-semibold py-2 rounded text-gray-900 dark:text-white hover:bg-[#686055] dark:hover:bg-[#625a50]">
+                    className="cursor-pointer transition duration-200 w-full bg-[#817565] font-semibold py-2 rounded text-white dark:text-white hover:bg-[#686055] dark:hover:bg-[#625a50]">
                     Add To Cart
                   </button>
                 )}

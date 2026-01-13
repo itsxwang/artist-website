@@ -333,7 +333,7 @@ function MainFavourites() {
                           e.stopPropagation();
                           window.location.href = `/cart/${artwork._id}?quantity=1`;
                         }}
-                        className={`cursor-pointer transition-all duration-300 ease-in-out bg-[#817565] font-semibold py-2 rounded text-gray-900 dark:text-white hover:bg-[#686055] dark:hover:bg-[#625a50] ${
+                        className={`cursor-pointer transition-all duration-300 ease-in-out bg-[#817565] font-semibold py-2 rounded text-white dark:text-white hover:bg-[#686055] dark:hover:bg-[#625a50] ${
                           layout === "grid"
                             ? "w-full"
                             : "w-auto px-6 mx-auto block"

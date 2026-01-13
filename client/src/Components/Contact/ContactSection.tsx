@@ -1,14 +1,16 @@
 import { Mail, MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const ContactSection = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [searchParams] = useSearchParams();
   const [message, setMessage] = useState<string>(() => {
-    const contactMessage = localStorage.getItem("contactMessage");
-    if (contactMessage) {
-      localStorage.removeItem("contactMessage");
-      return contactMessage;
+
+    const requested_art = searchParams.get("requested_art");
+    if (requested_art) {
+      return `Hi Samridhi, I want the same painting or a customized version of "${requested_art}" Artwork. Thank you!`;
     }
     return "";
   });
@@ -16,12 +18,10 @@ const ContactSection = () => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
 
-  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-  
-  
+
   // Auto-dismiss success message after 2 seconds
   useEffect(() => {
     if (success) {
@@ -98,10 +98,10 @@ const ContactSection = () => {
               <Mail className="text-[#625a50] dark:text-[#c7c2b8] w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-semibold text-lg text-black dark:text-white">
+              <h4 className="font-semibold text-lg text-black font-playfair dark:text-white">
                 Email
               </h4>
-              <p className="text-gray-700 dark:text-gray-300">
+              <p className="text-gray-700 dark:text-gray-300 font-['Roboto']">
                 sfgsamridhi36325@gmail.com
               </p>
             </div>
@@ -111,10 +111,10 @@ const ContactSection = () => {
               <MapPin className="text-[#625a50] dark:text-[#c7c2b8] w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-semibold text-lg text-black dark:text-white">
+              <h4 className="font-semibold text-lg text-black font-playfair dark:text-white">
                 Studio
               </h4>
-              <p className="text-gray-700 dark:text-gray-300">India</p>
+              <p className="text-gray-700 dark:text-gray-300 font-['Roboto']">India</p>
             </div>
           </div>
         </div>
