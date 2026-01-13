@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 // import { useCountUp } from "../../hooks/useCountUp"; // ✅ import utility hook
+import '../../index.css'
 
 const MainAbout: React.FC = () => {
   // const artworksCount = useCountUp(150, 2000); // counts to 150 in 2s
@@ -65,7 +66,7 @@ const MainAbout: React.FC = () => {
           <p className="italic text-[1.05rem] sm:text-[1.1rem] font-[playfair] text-black dark:text-gray-200">
             “Bringing stories to life through art.”
           </p>
-          <cite className="mt-2 block text-sm font-semibold text-gray-600 dark:text-gray-400">
+          <cite className="mt-2 signatie block text-sm font-semibold text-gray-600 dark:text-gray-400">
             — Samridhi
           </cite>
         </motion.blockquote>
