@@ -16,13 +16,12 @@ const app = express();
 // CORS CONFIG (IMPORTANT)
 // ---------------------
 const allowedOrigins = [
-  "http://localhost:5173",       // local dev
-  "http://localhost:3000",
-  "https://your-frontend.vercel.app", // replace with your frontend URL
-  "https://samstudio.com"        // replace if using custom domain
+  "http://localhost:5173", // for local dev
+  "https://www.samridhistudio.com/",
 ];
 
-app.use(cors({ origin: '*' }));
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 // ---------------------
